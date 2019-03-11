@@ -1,0 +1,14 @@
+Hello, this is TicTacToe game and here is some rules
+You can choose the size of the field manually, but no less than 3 and not bigger than 20.
+You can also choose the lvl of the bot playing vs you, and if you want, 
+You can watch, how two bots are playing vs each other.
+To fill the blank cell of the field, you should input the coordinates of this field
+Ex.:
+Coordinates of 3x3 field are:
+0 0|0 1|0 2
+-----------
+1 0|1 1|1 2
+-----------
+2 0|2 1|2 2
+Good luck.
+Press enter, to continue...

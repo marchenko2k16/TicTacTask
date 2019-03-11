@@ -5,13 +5,62 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Single.cpp">
+      <UniqueIdentifier>{95eecb73-ffd7-4fea-8ae2-4f25aa505727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header files\Single.h">
+      <UniqueIdentifier>{3b2aab68-dc8f-42eb-bee0-a5906802f32a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ENTRY.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot.cpp">
+      <Filter>Source Files\Single.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Source Files\Single.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Source Files\Single.cpp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Cell.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Header files\Single.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Header files\Single.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot.h">
+      <Filter>Header files\Single.h</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

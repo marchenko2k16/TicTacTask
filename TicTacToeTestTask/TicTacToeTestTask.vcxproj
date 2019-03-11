@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -115,6 +115,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bot.cpp" />
+    <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Field.cpp" />
+    <ClCompile Include="ENTRY.cpp" />
+    <ClCompile Include="Random.cpp" />
+    <ClCompile Include="Render.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bot.h" />
+    <ClInclude Include="Cell.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="Render.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
