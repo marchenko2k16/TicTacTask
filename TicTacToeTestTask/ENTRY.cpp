@@ -1,17 +1,16 @@
-﻿#include <Windows.h>
-#include <string>
+﻿#include "Bot.h"
 
-#include "Bot.h"
-#include "Random.h"
 
-using std::cin;
+#include "GameDescription.h"
+
+
 void main()
 {
-
-
+	GameDescription::chooseSide();
+	GameDescription::rules();
 	Engine engine;
-	//engine.rules();
 	engine.initGame();
-	engine.loop();
+	while (std::cin.get())
+		engine.loop();
 
 }

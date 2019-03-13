@@ -5,26 +5,25 @@ std::pair<short int, short int> Engine::score;
 
 
 
-
-bool Engine::checkRaws(CellState cs)
+bool Engine::checkRows(CellState cs)
 {
 	bool check = false;
-	unsigned int count = 0;
+	unsigned int count = 1;
 	for (auto i = 0; i < Field::fieldSize; ++i)
 	{
 		for (auto j = 0; j < Field::fieldSize - 1; ++j)
 		{
-			if (cs == Field::gameField[j][i].cellState &&
+			if (cs == Field::gameField[i][j].cellState &&
 				Field::gameField[i][j].cellState == Field::gameField[i][j + 1].cellState)
 			{
 				++count;
-			}
-			if (count == Field::fieldSize) check = true;
-			else
-			{
-				count = 0;
+ 				if (count == Field::fieldSize)
+				{
+					check = true;
+				}
 			}
 		}
+		count = 1;
 	}
 	return check;
 }
@@ -32,7 +31,7 @@ bool Engine::checkRaws(CellState cs)
 bool Engine::checkColumn(CellState cs)
 {
 	bool check = false;
-	unsigned int count = 0;
+	unsigned int count = 1;
 	for (auto i = 0; i < Field::fieldSize; ++i)
 	{
 		for (auto j = 0; j < Field::fieldSize - 1; ++j)
@@ -41,13 +40,13 @@ bool Engine::checkColumn(CellState cs)
 				Field::gameField[j][i].cellState == Field::gameField[j + 1][i].cellState)
 			{
 				++count;
+				if (count == Field::fieldSize) 
+				{
+					check = true; 
+				}
 			}
-			else
-			{
-				count = 0;
-			}
-			if (count == Field::fieldSize) { check = true; }
 		}
+		count = 1;
 	}
 	return check;
 }
@@ -60,62 +59,102 @@ bool Engine::checkDiagonal(CellState cs)
 	{
 		if (cs == Field::gameField[i][i].cellState) ++count;
 	}
-	if (count == Field::fieldSize) { check = true; }
+	if (count == Field::fieldSize) 
+	{
+		check = true; 
+	}
 	
 	count = 0;
 
 	for (auto i = 0; i < Field::fieldSize; ++i)
 	{
-		if (cs == Field::gameField[i][Field::fieldSize - i].cellState) ++count;
+		if (cs == Field::gameField[i][Field::fieldSize - 1 - i].cellState) ++count;
 	}
-	if (count == Field::fieldSize) { check = true; }
+	if (count == Field::fieldSize) 
+	{
+		check = true; 
+	}
 	
 	return check;
 }
 
 void Engine::checkField()
 {
-	unsigned int count = 0;
-	for (auto i = 0; i < Field::fieldSize; ++i)
-		for (auto j = 0; j < Field::fieldSize; ++j)
-			if (Field::gameField[i][j].cellState != CellState::EMPTY)
-				++count;
-
-	if (checkColumn(CellState::X) ||
-		checkRaws(CellState::X) ||
-		checkDiagonal(CellState::X))
+	if (checkRows(GameDescription::playerSymbol) ||
+		checkColumn(GameDescription::playerSymbol) ||
+		checkDiagonal(GameDescription::playerSymbol))
 	{
 		gameState = GameState::Win;
 	}
-	else if ((checkColumn(CellState::O) ||
-		checkDiagonal(CellState::O) ||
-		checkRaws(CellState::O)))
+	else if ((checkColumn(GameDescription::opponentSymbol) ||
+		checkRows(GameDescription::opponentSymbol) ||
+		checkDiagonal(GameDescription::opponentSymbol)))
 	{
 		gameState = GameState::Lose;
 	}
-	else if (count == Field::fieldSize * Field::fieldSize)
+	else if (GameDescription::moveCount == Field::fieldSize * Field::fieldSize)
 		gameState = GameState::Draw;
-}
-
-
-
-
-void Engine::rules()
-{
-
-	std::ifstream readFrom("assets//preview");
-	std::stringstream ss;
-	ss << readFrom.rdbuf();
-	std::string printStr = ss.str();
-
-	for (int i = 0; i < printStr.length(); i++)
+	
+	//check for out
+	try
 	{
-		std::cout << printStr[i];
-		Sleep(5);
+		if (GameDescription::moveCount > Field::fieldSize * Field::fieldSize)
+		{
+			throw "Potential out of range";
+		}
 	}
-	std::cin.get();
-	Render::clearCmd();
+	catch (char *str)
+	{
+		std::cout << str << std::endl;
+	}
 }
+
+void Engine::playerMove()
+{
+	if (turnIdentifier == true)
+	{
+		switch (playerType)
+		{
+		case PlayerType::Human:
+			std::cout << "Enter the cell (x and y coordinates) to fill: " << std::endl;
+			signed short int x, y;
+
+			while (std::cin >> x >> y)
+			{
+				if (x < Field::fieldSize && y < Field::fieldSize && Field::gameField[x][y].cellState == CellState::EMPTY)
+				{
+					turnIdentifier = false;
+					Field::gameField[x][y] = GameDescription::playerSymbol;
+					break;
+				}
+				std::cout << "Wrong input, try again...";
+
+			}
+			break;
+		case PlayerType::Bot:
+			std::cout << "Your bot turn..." << std::endl;
+			std::pair<unsigned int, unsigned int>fill = Bot::move();
+			Field::gameField[fill.first][fill.second] = GameDescription::playerSymbol;
+			turnIdentifier = false;
+			break;
+		}
+		++GameDescription::moveCount;
+	}
+}
+
+void Engine::opponentMove()
+{
+	if (turnIdentifier == false)
+	{
+		std::cout << "Opponent bot turn..." << std::endl;
+		std::pair<unsigned int, unsigned int>fill = Bot::move();
+		Field::gameField[fill.first][fill.second] = GameDescription::opponentSymbol;
+		turnIdentifier = true;
+		++GameDescription::moveCount;
+	}
+}
+
+
 
 void Engine::initGame()
 {
@@ -126,11 +165,11 @@ void Engine::initGame()
 		"The game will be automatically set to 8x8\n"
 		"Input number and press enter: ";
 
-	unsigned short int size;
-	std::cin >> size;
-	if (2 < size && size < 21)
+	unsigned short int fieldSize;
+	std::cin >> fieldSize;
+	if (2 < fieldSize && fieldSize < 21)
 	{
-		engField = new Field(size);
+		engField = new Field(fieldSize);
 	}
 	else
 	{
@@ -155,68 +194,35 @@ void Engine::initGame()
 	{
 		playerType = PlayerType::Human;
 	}
-
 }
 
 void Engine::loop()
 {
 	flipCoin();
 	gameState = GameState::Playing;
+	Render::renderField(Field::gameField);
+	
+	
 	while (gameState == GameState::Playing)
 	{
 
-		Render::renderField(Field::gameField);
-
-		if (gameState != GameState::Playing) break;
-		
-		if (turnIdentifier == true)
-		{
-			switch (playerType)
-			{
-			case PlayerType::Human:
-				std::cout << "Enter the cell (x and y coordinates) to fill: " << std::endl;
-				signed short int x, y;
-		
-				while (std::cin >> x >> y)
-				{
-					if (x < Field::fieldSize && y < Field::fieldSize && Field::gameField[x][y].cellState == CellState::EMPTY)
-					{
-						turnIdentifier = false;
-						Field::gameField[x][y] = CellState::X;
-						break;
-					}
-					std::cout << "Wrong input, try again...";
-		
-				}
-				break;
-			case PlayerType::Bot:
-				std::cout << "Your bot turn..." << std::endl;
-				std::pair<unsigned int, unsigned int>fill = Bot::move();
-				Field::gameField[fill.first][fill.second] = CellState::X;
-				turnIdentifier = false;
-				break;
-			}
-			
-		}
+		playerMove();
 		checkField();
 		Render::renderField(Field::gameField);
+		
 		if (gameState != GameState::Playing)
 		{
 			break;
 		}
 		
-		if(turnIdentifier == false)
-		{
-			std::cout << "Opponent bot turn..." << std::endl;
-			std::pair<unsigned int, unsigned int>fill = Bot::move();
-			Field::gameField[fill.first][fill.second] = CellState::O;
-			turnIdentifier = true;
-		}
+		opponentMove();
 		checkField();
-
 		Render::renderField(Field::gameField);
 	}
-	resultMsg();
+	GameDescription::moveCount = 0;
+	resultMsg(); 
+	Field::resetField();
+
 }
 
 void Engine::resultMsg()
@@ -226,10 +232,12 @@ void Engine::resultMsg()
 	if (gameState == GameState::Lose)
 	{
 		endMsg = const_cast<char*>(loseMsg.c_str());
+		++GameDescription::score.second;
 	}
 	else if(gameState == GameState::Win)
 	{
 		endMsg = const_cast<char*>(winMsg.c_str());
+		++GameDescription::score.first;
 	}
 	else
 	{

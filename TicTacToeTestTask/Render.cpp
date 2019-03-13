@@ -41,7 +41,11 @@ void Render::clearCmd()
 void Render::renderField(Cell ** _gField)
 {
 	clearCmd();
-	
+	std::cout << "SCRORE" << std::endl
+		<< "YOU: " << GameDescription::score.first
+		<< "  OPPONENT" << GameDescription::score.second
+		<< std::endl;
+
 	for (auto i = 0; i < Field::fieldSize; ++i)
 	{
 		std::cout << "----";

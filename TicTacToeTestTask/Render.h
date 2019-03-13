@@ -2,6 +2,7 @@
 
 #include "Engine.h"
 #include <Windows.h>
+#include "GameDescription.h"
 
 class Render
 {

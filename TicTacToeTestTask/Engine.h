@@ -25,18 +25,19 @@ private:
 	PlayerType secondPlayer;
 	bool turnIdentifier;
 
-	bool checkRaws(CellState cs);
+	
+
+	bool checkRows(CellState cs);
 	bool checkColumn(CellState cs);
 	bool checkDiagonal(CellState cs);
-
 	void checkField();
 
+	void playerMove();
+	void opponentMove();
 public:
 
 	static std::pair<short int, short int> score;
 	static std::chrono::steady_clock clock;
-
-	void rules();
 
 	void initGame();
 	

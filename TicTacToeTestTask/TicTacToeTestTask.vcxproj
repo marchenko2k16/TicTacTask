@@ -120,6 +120,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="ENTRY.cpp" />
+    <ClCompile Include="GameDescription.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Render.cpp" />
   </ItemGroup>
@@ -128,6 +129,7 @@
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="GameDescription.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Render.h" />
   </ItemGroup>
