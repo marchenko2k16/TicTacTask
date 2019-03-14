@@ -11,8 +11,9 @@ class GameDescription
 {
 public:
 	//your score -- //opponent score
-	static unsigned int moveCount;
 	static std::pair<unsigned int, unsigned int> score;
+	static bool isPlayerTurn;
+	static unsigned int moveCount;
 	static CellState playerSymbol;
 	static CellState opponentSymbol;
 	static void chooseSide();

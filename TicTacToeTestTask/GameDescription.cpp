@@ -1,5 +1,7 @@
 #include "GameDescription.h"
 
+bool GameDescription::isPlayerTurn;
+
 unsigned int GameDescription::moveCount;
 
 std::pair<unsigned int, unsigned int> GameDescription::score;

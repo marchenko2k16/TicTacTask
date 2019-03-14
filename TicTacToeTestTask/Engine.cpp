@@ -1,8 +1,5 @@
 #include "Engine.h"
 
-std::chrono::steady_clock Engine::clock;
-std::pair<short int, short int> Engine::score;
-
 
 
 bool Engine::checkRows(CellState cs)
@@ -111,7 +108,7 @@ void Engine::checkField()
 
 void Engine::playerMove()
 {
-	if (turnIdentifier == true)
+	if (GameDescription::isPlayerTurn == true)
 	{
 		switch (playerType)
 		{
@@ -123,7 +120,7 @@ void Engine::playerMove()
 			{
 				if (x < Field::fieldSize && y < Field::fieldSize && Field::gameField[x][y].cellState == CellState::EMPTY)
 				{
-					turnIdentifier = false;
+					GameDescription::isPlayerTurn = false;
 					Field::gameField[x][y] = GameDescription::playerSymbol;
 					break;
 				}
@@ -135,7 +132,7 @@ void Engine::playerMove()
 			std::cout << "Your bot turn..." << std::endl;
 			std::pair<unsigned int, unsigned int>fill = Bot::move();
 			Field::gameField[fill.first][fill.second] = GameDescription::playerSymbol;
-			turnIdentifier = false;
+			GameDescription::isPlayerTurn = false;
 			break;
 		}
 		++GameDescription::moveCount;
@@ -144,12 +141,12 @@ void Engine::playerMove()
 
 void Engine::opponentMove()
 {
-	if (turnIdentifier == false)
+	if (GameDescription::isPlayerTurn == false)
 	{
 		std::cout << "Opponent bot turn..." << std::endl;
 		std::pair<unsigned int, unsigned int>fill = Bot::move();
 		Field::gameField[fill.first][fill.second] = GameDescription::opponentSymbol;
-		turnIdentifier = true;
+		GameDescription::isPlayerTurn = true;
 		++GameDescription::moveCount;
 	}
 }
@@ -245,7 +242,6 @@ void Engine::resultMsg()
 	}
 
 	MessageBox(0, endMsg, "Game", MB_OK);
-
 }
 
 bool Engine::flipCoin()
@@ -260,4 +256,5 @@ Engine::Engine()
 
 Engine::~Engine()
 {
+	delete engField;
 }

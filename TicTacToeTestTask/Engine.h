@@ -1,6 +1,5 @@
 #pragma once
 
-#include <chrono>
 #include <fstream>
 #include <sstream>
 #include "Field.h"
@@ -17,15 +16,10 @@ const std::string drawMsg("DRAW");
 
 class Engine
 {
-private:
+protected:
 	Field* engField;
 	GameState gameState;
 	PlayerType playerType;
-	PlayerType firstPlayer;
-	PlayerType secondPlayer;
-	bool turnIdentifier;
-
-	
 
 	bool checkRows(CellState cs);
 	bool checkColumn(CellState cs);
@@ -36,13 +30,8 @@ private:
 	void opponentMove();
 public:
 
-	static std::pair<short int, short int> score;
-	static std::chrono::steady_clock clock;
-
 	void initGame();
-	
 	void loop();
-	
 	void resultMsg();
 	bool flipCoin();//if true - YOU START (IT ACTUALLY CAN BE YOUR OWN BOT) / if false - opponent bot starts
 
