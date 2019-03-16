@@ -72,9 +72,10 @@ std::pair<unsigned int, unsigned int> Bot::normalMove()
 	unsigned int countOpponent = 0;
 	unsigned int row, col;
 
+	unsigned int innerCountOpponentRow = 0, countEmptyRow = 0;
+	
 	for (unsigned int i = 0, j; i < Field::fieldSize; ++i)
 	{
-		unsigned int innerCountOpponentRow = 0, countEmptyRow = 0;
 		for (j = 0; j < Field::fieldSize; ++j)
 		{
 			if (Field::gameField[i][j].cellState == currentOponentCell)
@@ -94,6 +95,8 @@ std::pair<unsigned int, unsigned int> Bot::normalMove()
 				moveVar.second = col;
 				countOpponent = innerCountOpponentRow;
 			}
+			innerCountOpponentRow = 0;
+			innerCountOpponentRow = 0;
 	}
 
 	for (unsigned int i = 0, j; i < Field::fieldSize; ++i)
@@ -118,6 +121,49 @@ std::pair<unsigned int, unsigned int> Bot::normalMove()
 			moveVar.second = col;
 			countOpponent = innerCountOpponentRow;
 		}
+	}
+
+	for (auto i = 0; i < Field::fieldSize; ++i)
+	{
+		if (Field::gameField[i][i].cellState == currentOponentCell)
+		{
+			++innerCountOpponentRow;
+		}
+		else if (Field::gameField[i][i].cellState == CellState::EMPTY)
+		{
+			++countEmptyRow;
+			row = i;
+			col = i;
+		}
+	}
+	if (innerCountOpponentRow > countOpponent && countEmptyRow > 0)
+	{
+		moveVar.first = row;
+		moveVar.second = col;
+		countOpponent = innerCountOpponentRow;
+	}
+	innerCountOpponentRow = 0;
+	innerCountOpponentRow = 0;
+
+
+	for (auto i = 0; i < Field::fieldSize; ++i)
+	{
+		if (Field::gameField[i][Field::fieldSize - 1 - i].cellState == currentOponentCell)
+		{
+			++innerCountOpponentRow;
+		}
+		else if (Field::gameField[i][Field::fieldSize - 1 - i].cellState == CellState::EMPTY)
+		{
+			++countEmptyRow;
+			row = i;
+			col = i;
+		}
+	}
+	if (innerCountOpponentRow > countOpponent && countEmptyRow > 0)
+	{
+		moveVar.first = row;
+		moveVar.second = col;
+		countOpponent = innerCountOpponentRow;
 	}
 
 	return moveVar;
