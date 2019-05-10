@@ -18,10 +18,10 @@ void Field::resetField()
 }
 
 
-Field::Field(short int _fueldSize)
+Field::Field(short int _fieldSize)
 {
 	
-	fieldSize = _fueldSize;
+	fieldSize = _fieldSize;
 
 	Field::gameField = new Cell*[Field::fieldSize];
 	for (auto i = 0; i < Field::fieldSize; i++)
