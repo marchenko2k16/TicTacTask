@@ -35,5 +35,9 @@ Field::Field(short int _fueldSize)
 
 Field::~Field()
 {
+	for(auto i = 0; i < Field::fieldSize; ++i)
+	{
+		delete[] gameField[i];
+	}
 	delete[] gameField;
 }
